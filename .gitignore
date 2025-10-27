@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.zip
+.env
+.venv/
+.envrc
+*.log
+.cache/
+.aws-sam/
+.idea/
+.vscode/

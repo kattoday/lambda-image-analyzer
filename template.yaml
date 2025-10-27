@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Lambda function to analyze images using Rekognition when uploaded to S3
+
+Resources:
+  ImageRekognitionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ImageRekognitionHandler
+      Runtime: python3.13
+      Handler: lambda_function.lambda_handler
+      CodeUri: .
+      MemorySize: 128
+      Timeout: 10
+      Policies:
+        - AmazonRekognitionFullAccess
+        - AmazonS3ReadOnlyAccess
+        - CloudWatchLogsFullAccess
+      Events:
+        S3UploadTrigger:
+          Type: S3
+          Properties:
+            Bucket: tammy-image-analyzer
+            Events: s3:ObjectCreated:Put
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: suffix
+                    Value: .jpg
